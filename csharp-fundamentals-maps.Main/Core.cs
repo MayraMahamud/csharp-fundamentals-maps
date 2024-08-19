@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,9 +51,18 @@ namespace csharp_fundamentals_maps.Main
 
         public string getValue(string key)
         {
-            
-           
-            return string.Empty;
+            Dictionary<string, string> map = createPerson();
+
+            if (map.ContainsKey(key))
+            {
+                return map[key];
+            }
+            else
+            {
+                return string.Empty;
+            }
+
+
 
 
         }
@@ -64,7 +76,8 @@ namespace csharp_fundamentals_maps.Main
          */
          public bool hasKey(Dictionary<string,string> dictionary, string isitthere)
          {
-            return false;
+
+            return dictionary.ContainsKey(isitthere);
             
          }
 
@@ -78,7 +91,15 @@ namespace csharp_fundamentals_maps.Main
          */
         public int getValueOrDefault(Dictionary<string,int> dictionary, string isitthere)
         {
-            return 0;
+            if (dictionary.TryGetValue(isitthere, out int value))
+            { return value; }
+            else
+            {
+                return -1;
+            }
+                
+
+           
 
         }
 
@@ -94,7 +115,7 @@ namespace csharp_fundamentals_maps.Main
         public List<string> buildSecretPhrase(int[] numbers)
         {
             List<string> results = new List<string>();
-            
+
             // Do not modify the map
             Dictionary<int, string> map = new Dictionary<int, string>();
             map.Add(23, "chicken");
@@ -103,12 +124,48 @@ namespace csharp_fundamentals_maps.Main
             map.Add(6712, "bass");
             map.Add(7, "muse");
             map.Add(96, "nice");
+
             // Write your code below this comment...
 
+            foreach (int number in numbers)
+            {
+                if (map.ContainsKey(number))
+                {
+                    results.Add(map[number]);
+
+                }
+            }
+          return results;
+        }
+
+
+            public static void main()
+        {
+            Core builder = new Core();
+              
+
+          int[] numbers1 = { 42, 6712, 7 };
+          int[] numbers2 = { 23, 19, 96, 23, 165 };
+          int[] numbers3 = { 918, 71, 88 };
+
+        Console.WriteLine(string.Join(",",builder.buildSecretPhrase(numbers1)));
+        Console.WriteLine(string.Join(",", builder.buildSecretPhrase(numbers2)));
+        Console.WriteLine(string.Join(",", builder.buildSecretPhrase(numbers3)));
+        
+        
+        
+        
            
 
+        }
+              
+           
+        
+
+ 
+
             //    // ...and above this comment
-            return results;
+           
         }            
     }
-}
+
